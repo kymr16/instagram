@@ -6,6 +6,7 @@
 //  Copyright © 2020 reiko.yoshida. All rights reserved.
 //
 
+import Firebase
 import UIKit
 
 class TabBarController: UITabBarController, UITabBarControllerDelegate {
@@ -30,6 +31,18 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         } else {
             // その他のViewControllerは通常のタブ切り替えを実施
             return true
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+         super.viewDidAppear(animated)
+        
+        // currentUserがnilならログインしていない
+        if Auth.auth().currentUser == nil {
+            // ログインしていないときの処理
+            //引数にStoryboad IDを与えることで該当のViewControllerを得ることができる
+            let loginViewController = self.storyboard?.instantiateViewController(withIdentifier: "Login")
+            self.present(loginViewController!, animated: true, completion: nil)
         }
     }
 
